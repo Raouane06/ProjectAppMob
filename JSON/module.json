@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Données semi structurées",
+    "coefficient": 3
+  },
+  {
+    "name": " Intelligence artificielle",
+    "coefficient": 3
+  },
+  {
+    "name": "Rédaction scientifique",
+    "coefficient": 2
+  },
+  {
+    "name": "Sécurité informatique",
+    "coefficient": 3
+  },
+  {
+    "name": "Applications mobiles",
+    "coefficient": 3
+  },
+  {
+    "name": "Créer et développer une startup",
+    "coefficient": 2
+  }
+]
