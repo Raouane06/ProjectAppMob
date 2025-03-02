@@ -19,11 +19,13 @@ public class Module
     private double exam;
     public Module() {
     }
-    public Module(String name,int coefficient) {
+    public Module(String name,int coefficient)
+    {
         this.name=name;
         this.coefficient=coefficient;
     }
 
+    //hna to load list of modules mn json file
     public List<Module> loadModules(Context context)
     {
         List<Module> modules = new ArrayList<>();
@@ -48,19 +50,7 @@ public class Module
         return modules;
     }
 
-
-    public void setName(String name) { this.name = name; }
-    public void setCoefficient(int coefficient) { this.coefficient = coefficient; }
-    public void setTd(double td) { this.td = td; }
-    public void setTp(double tp) { this.tp = tp; }
-    public void setExam(double exam) { this.exam = exam; }
-
-    public String getName() { return name; }
-    public int getCoefficient() { return coefficient; }
-    public double getTd() { return td; }
-    public double getTp() { return tp; }
-    public double getExam() { return exam; }
-
+    //hna read mn json file every line
     private String readJsonFile(Context context)
     {
         try {
@@ -79,4 +69,18 @@ public class Module
             return "";
         }
     }
+
+    //setter
+    public void setName(String name) { this.name = name; }
+    public void setCoefficient(int coefficient) { this.coefficient = coefficient; }
+    public void setTd(double td) { this.td = td; }
+    public void setTp(double tp) { this.tp = tp; }
+    public void setExam(double exam) { this.exam = exam; }
+
+    //getter
+    public String getName() { return name; }
+    public int getCoefficient() { return coefficient; }
+    public double getTd() { return td; }
+    public double getTp() { return tp; }
+    public double getExam() { return exam; }
 }
