@@ -15,9 +15,9 @@
         android:textSize="16dp"
         android:textStyle="bold|italic"
         android:gravity="center"
-        android:background="@color/bleu"
+        android:background="@color/white"
         android:padding="16dp"
-    />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewModules"
@@ -26,7 +26,7 @@
         android:layout_weight="2"
         android:scrollbars="vertical"
         tools:listitem="@layout/item_module"
-    />
+        />
 
     <Button
         android:id="@+id/btnCalculate"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Calculate Average"
         android:layout_marginTop="8dp"
-    />
+        />
 
     <TextView
         android:id="@+id/tvResult"
@@ -45,6 +45,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginTop="8dp"
-    />
+        />
 
 </LinearLayout>
