@@ -2,63 +2,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp"
     android:background="@android:color/white"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/moduleName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Module Name"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/moduleCoefficient"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Coefficient: 0"
-        android:textSize="16sp"
-        android:layout_marginTop="4dp" />
-
+    <!-- Horizontal layout for Module Name, Coefficient, and Credit -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginBottom="16dp">
+
+        <!-- Module Name -->
+        <TextView
+            android:id="@+id/moduleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Module Name"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <!-- Coefficient -->
+        <TextView
+            android:id="@+id/moduleCoefficient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coef: 0"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"/>
+
+        <!-- Credit -->
+        <TextView
+            android:id="@+id/moduleCredit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" | Credit: 0"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <!-- Horizontal layout for TD, TP, and Exam scores -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="8dp">
 
         <EditText
             android:id="@+id/tdScore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="TD note"
-            android:inputType="numberDecimal" />
+            android:hint="TD score"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:background="@drawable/edittext_border"/>
 
         <EditText
             android:id="@+id/tpScore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="TP note"
+            android:layout_marginStart="8dp"
+            android:hint="TP score"
             android:inputType="numberDecimal"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="8dp">
+            android:padding="8dp"
+            android:background="@drawable/edittext_border"/>
 
         <EditText
             android:id="@+id/examScore"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Exam note"
-            android:inputType="numberDecimal" />
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:hint="Exam score"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:background="@drawable/edittext_border"/>
     </LinearLayout>
 
 </LinearLayout>
