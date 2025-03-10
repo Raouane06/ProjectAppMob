@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/icon"
+            android:src="@drawable/icon1"
             android:contentDescription="@string/account_icon"/>
 
         <EditText
@@ -33,6 +33,7 @@
             android:background="@drawable/rounded_corner"
             android:padding="12dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
             android:inputType="text"/>
 
         <EditText
@@ -58,7 +59,19 @@
             android:textSize="20sp"
             android:padding="16dp"
             android:layout_marginTop="32dp"
-            android:elevation="4dp"/>
+            android:elevation="4dp"
+            android:backgroundTint="@color/gray"/>
+        <TextView
+            android:id="@+id/signupRedirectText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not yet registred ? Signup"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textStyle="italic"/>
 
     </LinearLayout>
 </RelativeLayout>
