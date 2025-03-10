@@ -1,68 +1,62 @@
-package com.example.merry22;
+package com.example.lab1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
-import com.example.logsignsqlpractice.databinding.ActivitySignupBinding;
+import com.example.lab1.databinding.SignupBinding;
 
 public class SignupActivity extends AppCompatActivity {
 
-    ActivitySignupBinding binding;
-    DatabaseHelper databaseHelper;
+    SignupBinding binding;
+    database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+
+        binding = SignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        databaseHelper = new DatabaseHelper(this);
+        db = new database(this);
 
-        binding.signupButton.setOnClickListener(new View.OnClickListener() {
+        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = binding.signupEmail.getText().toString();
-                String password = binding.signupPassword.getText().toString();
-                String confirmPassword = binding.signupConfirm.getText().toString();
+                String email = binding.emailInput.getText().toString();
+                String username = binding.usernameInput.getText().toString();
+                String password = binding.passwordInput.getText().toString();
 
-                if(email.equals("")||password.equals("")||confirmPassword.equals(""))
+                if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
-                else{
-                    if(password.equals(confirmPassword)){
-                        Boolean checkUserEmail = databaseHelper.checkEmail(email);
+                } else {
+                    Boolean checkUser = db.checkUserName(username);
 
-                        if(checkUserEmail == false){
-                            Boolean insert = databaseHelper.insertData(email, password);
+                    if (!checkUser) {
+                        Boolean insert = db.insertData(email, username, password);
 
-                            if(insert == true){
-                                Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                                startActivity(intent);
-                            }else{
-                                Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
-                            }
+                        if (insert) {
+                            Toast.makeText(SignupActivity.this, "Signup Successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(SignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
 
-        binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
+        binding.loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 }
