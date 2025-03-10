@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:text="Student Exam Average Calculator"
         android:textSize="16dp"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         android:gravity="center"
-        android:background="@color/white"
+        android:textColor="@color/white"
+        android:background="@color/gray"
         android:padding="16dp"
         />
 
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Calculate Average"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/gray"
         />
 
     <TextView
