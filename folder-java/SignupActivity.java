@@ -1,62 +1,81 @@
-package com.example.lab1;
+package com.example.labb1;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-import com.example.lab1.databinding.SignupBinding;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.labb1.databinding.SignupBinding;
 
 public class SignupActivity extends AppCompatActivity {
 
-    SignupBinding binding;
-    database db;
+    private SignupBinding binding;
+    private database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = SignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         db = new database(this);
 
-        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = binding.emailInput.getText().toString();
-                String username = binding.usernameInput.getText().toString();
-                String password = binding.passwordInput.getText().toString();
+        binding.signupBtn.setOnClickListener(view -> {
+            String email = binding.emailInput.getText().toString().trim();
+            String username = binding.usernameInput.getText().toString().trim();
+            String password = binding.passwordInput.getText().toString().trim();
 
-                if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+            if (validateInputs(email, username, password)) {
+                performSignup(email, username, password);
+            }
+        });
+
+        binding.loginLink.setOnClickListener(view -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
+    }
+
+    private boolean validateInputs(String email, String username, String password) {
+        if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void performSignup(String email, String username, String password) {
+        new Thread(() -> {
+            boolean userExists = db.usernameExists(username);
+
+            runOnUiThread(() -> {
+                if (userExists) {
+                    Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show();
                 } else {
-                    Boolean checkUser = db.checkUserName(username);
+                    String role = "student"; // Default role
+                    boolean success = db.addUser (email, username, password, role);
 
-                    if (!checkUser) {
-                        Boolean insert = db.insertData(email, username, password);
-
-                        if (insert) {
-                            Toast.makeText(SignupActivity.this, "Signup Successful!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
-                        }
+                    if (success) {
+                        Toast.makeText(this, "Signup successful!", Toast.LENGTH_SHORT).show();
+                        navigateToLogin();
                     } else {
-                        Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Signup failed", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            });
+        }).start();
+    }
 
-        binding.loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void navigateToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
     }
 }
