@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_back"
+    android:fillViewport="true"
+    tools:context=".profile">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Profile Header with circular image -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/icon1"
+                android:contentDescription="Profile Image"
+                android:layout_marginBottom="8dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+        <!-- Information Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Account Information"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Username -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Username: "
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/profile_username"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="student123"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rounded_corner"
+                        android:padding="8dp"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <!-- Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email: "
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/profile_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="email@example.com"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rounded_corner"
+                        android:padding="8dp"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <!-- Role -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Role: "
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/profile_role_card"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Student"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/rounded_corner"
+                        android:padding="8dp"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_profile_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:layout_marginBottom="4dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="@color/black"
+                app:strokeColor="@color/black"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/change_password_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Password"
+                android:layout_marginBottom="4dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="@color/black"
+                app:strokeColor="@color/black"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                style="@style/Widget.MaterialComponents.Button"
+                android:backgroundTint="@color/red"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
