@@ -1,52 +1,65 @@
-package com.example.merry22;
+package com.example.labb1;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerViewModules;
-    private ModuleAdapter moduleAdapter;
-    private List<Module> modules;
+    private static final String USER_PREFS = "user_prefs";
+    private static final String USERNAME_KEY = "username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+        String username = prefs.getString(USERNAME_KEY, null);
+
+        if (username == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_main);
 
-        recyclerViewModules = findViewById(R.id.recyclerViewModules);
-        recyclerViewModules.setLayoutManager(new LinearLayoutManager(this));
+        //welcome message
+        TextView welcomeText = findViewById(R.id.welcome_text);
+        welcomeText.setText("Hello, " + username);
 
-        Module moduleLoader = new Module();
-        modules = moduleLoader.loadModules(this);
-
-        moduleAdapter = new ModuleAdapter(modules);
-        recyclerViewModules.setAdapter(moduleAdapter);
-
-        Button btnCalculate = findViewById(R.id.btnCalculate);
-        btnCalculate.setOnClickListener(view -> {
-            double sumWeightedAverages = 0;
-            int sumCoefficients = 0;
-
-            for (Module module : modules) {
-                double moduleAverage = ((module.getTd() + module.getTp()) / 2 + module.getExam()) / 2;
-                sumWeightedAverages += moduleAverage * module.getCoefficient();
-                sumCoefficients += module.getCoefficient();
-            }
-
-            double weightedAverage = sumWeightedAverages / sumCoefficients;
-            TextView tvResult = findViewById(R.id.tvResult);
-            if (weightedAverage >= 10) {
-                tvResult.setTextColor(ContextCompat.getColor(this, R.color.green));
-            } else {
-                tvResult.setTextColor(ContextCompat.getColor(this, R.color.red));
-            }
-            tvResult.setText("Result: " + weightedAverage + (weightedAverage >= 10 ? " (Pass)" : " (Fail)"));
+        //load calsulate page
+        ImageButton btnCalculate = findViewById(R.id.btnCalculate);
+        btnCalculate.setOnClickListener(v -> {
+            loadFragment(new calculate());
         });
+        //load grades page
+        ImageButton btnGrades = findViewById(R.id.btnGrades);
+        btnGrades.setOnClickListener(v -> {
+            loadFragment(new grades());
+        });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update username if changed
+        SharedPreferences prefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+        String username = prefs.getString(USERNAME_KEY, null);
+        if (username != null) {
+            TextView welcomeText = findViewById(R.id.welcome_text);
+            welcomeText.setText("Hello, " + username);
+        }
     }
 }
