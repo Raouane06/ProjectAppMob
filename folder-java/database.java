@@ -1,81 +1,137 @@
-package com.example.lab1;
+package com.example.labb1;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class database extends SQLiteOpenHelper
-{
+public class database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE = "user";
+    private static final int DATABASE_VERSION = 2; 
+    private static final String TABLE_NAME = "users";
 
-    private static final String ID = "usernameId";
-    private static final String EMAIL = "email";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    public database(@Nullable Context context)
-    {
-        super(context,"User.db", null, 1);
+    // Column names
+    public static final String ID = "id";
+    public static final String EMAIL = "email";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String ROLE = "role";
+
+    public database(@Nullable Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db)
-    {
-        String createTable="CREATE TABLE " + TABLE + " (" +
-            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            EMAIL + " TEXT," +
-            USERNAME + " TEXT UNIQUE, " +
-            PASSWORD + " TEXT)";
+    public void onCreate(SQLiteDatabase db) {
+        String createTable = "CREATE TABLE " + TABLE_NAME + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                EMAIL + " TEXT UNIQUE NOT NULL, " +
+                USERNAME + " TEXT UNIQUE NOT NULL, " +
+                PASSWORD + " TEXT NOT NULL, " +
+                ROLE + " TEXT NOT NULL)";
         db.execSQL(createTable);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    public Boolean insertData(String email,String username,String password)
-    {
-        SQLiteDatabase mydb=this.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("email",email);
-        contentValues.put("username",username);
-        contentValues.put("password",password);
-        long result= mydb.insert(TABLE,null,contentValues);
+    // Add a new user
+    public boolean addUser(String email, String username, String password, String role) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(EMAIL, email);
+        values.put(USERNAME, username);
+        values.put(PASSWORD, password);
+        values.put(ROLE, role);
 
-        if(result==-1)
-        {
-            return false;
-        }
-        else return true;
-    }
-    public Boolean checkUserName(String username)
-    {
-        SQLiteDatabase mydb=this.getReadableDatabase();
-        Cursor cur=mydb.rawQuery("SELECT * from user where username=? ",new  String[]{username});
-        if(cur.getCount()>0)
-        {
-            return true;
-        }
-        else return false;
+        long result = db.insert(TABLE_NAME, null, values);
+        return result != -1;
     }
 
-    public Boolean checkUserPass(String username,String password)
-    {
-        SQLiteDatabase mydb=this.getWritableDatabase();
-        Cursor cur=mydb.rawQuery("SELECT * from user where username=? and password=? ",new  String[]{username,password});
-        if(cur.getCount()>0)
-        {
-            return true;
+    // Get user data
+    public Cursor getUserData(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_NAME,
+                new String[]{ID, EMAIL, USERNAME, PASSWORD, ROLE},
+                USERNAME + "=?",
+                new String[]{username},
+                null, null, null);
+    }
+
+    // Update user profile
+    public boolean updateUserProfile(String currentUsername, String newUsername, String email, String role) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USERNAME, newUsername);
+        values.put(EMAIL, email);
+        values.put(ROLE, role);
+
+        int rowsAffected = db.update(TABLE_NAME, values,
+                USERNAME + "=?",
+                new String[]{currentUsername});
+        return rowsAffected > 0;
+    }
+
+    // Update password
+    public boolean updatePassword(String username, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PASSWORD, newPassword);
+
+        int rowsAffected = db.update(TABLE_NAME, values,
+                USERNAME + "=?",
+                new String[]{username});
+        return rowsAffected > 0;
+    }
+
+    // Check user credentials
+    public boolean checkUserCredentials(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{PASSWORD},
+                USERNAME + "=?",
+                new String[]{username},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String storedPassword = cursor.getString(0);
+            cursor.close();
+            return storedPassword.equals(password);
         }
-        else return false;
+        return false;
+    }
+
+    // Check if username exists
+    public boolean usernameExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{USERNAME},
+                USERNAME + "=?",
+                new String[]{username},
+                null, null, null);
+
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
+    }
+
+    // Check if email exists
+    public boolean emailExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME,
+                new String[]{EMAIL},
+                EMAIL + "=?",
+                new String[]{email},
+                null, null, null);
+
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        return exists;
     }
 }
