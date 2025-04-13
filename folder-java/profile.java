@@ -3,9 +3,7 @@ package com.example.labb1;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -22,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class profile extends Fragment {
     private static final int EDIT_PROFILE_REQUEST = 100;
@@ -42,7 +42,6 @@ public class profile extends Fragment {
             SharedPreferences prefs = requireActivity().getSharedPreferences(USER_PREFS, MODE_PRIVATE);
             currentUsername = prefs.getString(USERNAME_KEY, null);
 
-
             if (currentUsername == null || currentUsername.isEmpty()) {
                 showLoginPrompt();
                 return view;
@@ -50,14 +49,43 @@ public class profile extends Fragment {
 
             loadProfileData(view);
             setupButtons(view);
+            setupBottomNavigation(view);
 
         } catch (Exception e) {
-            Log.e("ProfileFragment", "Error in onCreateView", e);
+            Log.e("Profile", "Error in onCreateView", e);
             Toast.makeText(getActivity(), "Error loading profile", Toast.LENGTH_SHORT).show();
             requireActivity().onBackPressed();
         }
 
         return view;
+    }
+
+    private void setupBottomNavigation(View view) {
+        BottomNavigationView bottomNav = view.findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_profile);
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_profile) {
+                return true;
+            }
+            else if (itemId == R.id.nav_grades) {//switch to grads page
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new grades())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+            else if (itemId == R.id.nav_calculator) {//switch to calculate page
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new calculate())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void showLoginPrompt() {
@@ -74,7 +102,6 @@ public class profile extends Fragment {
         try {
             cursor = dbHelper.getUserData(currentUsername);
             if (cursor != null && cursor.moveToFirst()) {
-                // Bind data to views
                 TextView profileName = view.findViewById(R.id.profile_username);
                 profileName.setText(cursor.getString(cursor.getColumnIndex(database.USERNAME)));
 
@@ -82,10 +109,10 @@ public class profile extends Fragment {
                 profileEmail.setText(cursor.getString(cursor.getColumnIndex(database.EMAIL)));
 
             } else {
-                Toast.makeText(getActivity(), "User  data not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "User data not found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Log.e("ProfileFragment", "Error loading data", e);
+            Log.e("Profile", "Error loading data", e);
             Toast.makeText(getActivity(), "Error loading data", Toast.LENGTH_SHORT).show();
         } finally {
             if (cursor != null) {
@@ -101,6 +128,10 @@ public class profile extends Fragment {
             startActivityForResult(intent, EDIT_PROFILE_REQUEST);
         });
 
+        view.findViewById(R.id.change_password_button).setOnClickListener(v -> {
+            showChangePasswordDialog();
+        });
+
         view.findViewById(R.id.logout_button).setOnClickListener(v -> {
             SharedPreferences.Editor editor = requireActivity()
                     .getSharedPreferences(USER_PREFS, MODE_PRIVATE)
@@ -110,14 +141,6 @@ public class profile extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             requireActivity().finish();
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (dbHelper != null) {
-            dbHelper.close();
-        }
-        super.onDestroyView();
     }
 
     private void showChangePasswordDialog() {
@@ -162,6 +185,13 @@ public class profile extends Fragment {
         builder.show();
     }
 
+    @Override
+    public void onDestroyView() {
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
+        super.onDestroyView();
+    }
 
     @Override
     public void onDestroy() {
