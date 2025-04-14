@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -148,7 +147,7 @@ public class profile extends Fragment {
         builder.setTitle("Change Password");
 
         View dialogView = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_change_password, null);
+                .inflate(R.layout.password, null);
 
         EditText currentPassword = dialogView.findViewById(R.id.current_password);
         EditText newPassword = dialogView.findViewById(R.id.new_password);
