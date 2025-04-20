@@ -3,6 +3,7 @@ package com.example.labb1;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -183,7 +184,33 @@ public class profile extends Fragment {
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
+    // Add this method to your profile class
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == EDIT_PROFILE_REQUEST && resultCode == Activity.RESULT_OK) {
+            // Update the displayed username and email
+            String newUsername = data.getStringExtra("username");
+            String email = data.getStringExtra("email");
+
+            TextView profileName = getView().findViewById(R.id.profile_username);
+            profileName.setText(newUsername);
+
+            TextView profileEmail = getView().findViewById(R.id.profile_email);
+            profileEmail.setText(email);
+
+            // Update current username
+            currentUsername = newUsername;
+
+            // Update shared preferences if needed
+            SharedPreferences.Editor editor = requireActivity()
+                    .getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                    .edit();
+            editor.putString(USERNAME_KEY, newUsername);
+            editor.apply();
+        }
+    }
     @Override
     public void onDestroyView() {
         if (dbHelper != null) {
