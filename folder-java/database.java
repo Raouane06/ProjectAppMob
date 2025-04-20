@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 public class database extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 2; 
+    private static final int DATABASE_VERSION = 2; // Incremented version
     private static final String TABLE_NAME = "users";
 
     // Column names
@@ -65,16 +65,19 @@ public class database extends SQLiteOpenHelper {
     }
 
     // Update user profile
-    public boolean updateUserProfile(String currentUsername, String newUsername, String email, String role) {
+    public boolean updateUserProfile(String oldUsername, String newUsername, String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(USERNAME, newUsername);
         values.put(EMAIL, email);
-        values.put(ROLE, role);
 
-        int rowsAffected = db.update(TABLE_NAME, values,
-                USERNAME + "=?",
-                new String[]{currentUsername});
+        int rowsAffected = db.update(
+                TABLE_NAME,
+                values,
+                USERNAME + " = ?",
+                new String[]{oldUsername}
+        );
+        db.close();
         return rowsAffected > 0;
     }
 
