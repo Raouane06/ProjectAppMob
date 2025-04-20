@@ -5,104 +5,177 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_back">
 
+    <!-- Main content with buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
+        <!-- App Icon -->
         <ImageView
             android:id="@+id/app_icon"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:src="@drawable/icon1"
             android:contentDescription="App Logo"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="12dp"
             android:scaleType="fitCenter"/>
-        
+
+        <!-- Welcome Message -->
         <TextView
             android:id="@+id/welcome_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello, "
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Options Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Choose your option!"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="24dp"/>
 
+        <!-- First Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="16dp">
+            android:layout_marginBottom="8dp">
 
+            <!-- Calculator -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp">
 
                 <ImageButton
                     android:id="@+id/btnCalculate"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/calculator"
                     android:contentDescription="Calculator"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    android:padding="8dp"/>
+                    android:scaleType="centerInside"
+                    android:padding="4dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Average Calc"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
+
+            <!-- Grades -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="12dp">
 
                 <ImageButton
                     android:id="@+id/btnGrades"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:src="@drawable/education"
                     android:contentDescription="Grades"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    android:padding="8dp"/>
+                    android:scaleType="centerInside"
+                    android:padding="4dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Grades"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Second Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Announcements -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <ImageButton
+                    android:id="@+id/btnAnnouncements"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/announcement"
+                    android:contentDescription="Announcements"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Announcements"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- Schedule -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <ImageButton
+                    android:id="@+id/btnSchedule"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/calendar"
+                    android:contentDescription="Schedule"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="centerInside"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Emploi du temps"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-
+    <!-- Fragment container -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 </FrameLayout>
