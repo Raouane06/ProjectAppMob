@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Profile Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,8 +28,8 @@
                 android:src="@drawable/icon1"
                 android:contentDescription="Profile Image"
                 android:layout_marginBottom="16dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"/>
 
             <Button
                 android:id="@+id/change_image_button"
@@ -42,13 +41,13 @@
                 app:strokeColor="@color/white"/>
         </LinearLayout>
 
-        <!-- Editable Information Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/card_background">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,112 +64,92 @@
                     android:textColor="@color/white"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Name Field -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:hintTextColor="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="1dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="@android:color/transparent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Full Name"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"/>
-
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Full Name"
+                        android:textColor="@color/black"
                         android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/rounded_corner"
-                        android:padding="12dp"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
+                        android:inputType="textPersonName"
+                        android:enabled="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Email Field -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:hintTextColor="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="@android:color/transparent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"/>
-
-                    <EditText
-                        android:id="@+id/edit_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/rounded_corner"
-                        android:padding="12dp"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-
-                <!-- Username Field -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"/>
-
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Username"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
                         android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/rounded_corner"
-                        android:padding="12dp"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
+                        android:inputType="text"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Bio Field -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="12dp">
+                    android:layout_marginBottom="12dp"
+                    app:hintTextColor="@color/black"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeWidth="1dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="@android:color/transparent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bio"
-                        android:textSize="14sp"
-                        android:textColor="@color/white"/>
-
-                    <EditText
-                        android:id="@+id/edit_role"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:inputType="textEmailAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:hintTextColor="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidth="1dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="@android:color/transparent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Bio"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
                         android:inputType="textMultiLine"
                         android:minLines="3"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:background="@drawable/rounded_corner"
-                        android:padding="12dp"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
+                        android:enabled="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -184,7 +163,8 @@
                 android:text="Save Changes"
                 android:layout_marginBottom="8dp"
                 style="@style/Widget.MaterialComponents.Button"
-                android:backgroundTint="@color/gray"/>
+                android:backgroundTint="@color/primaryColor"
+                android:textColor="@color/white"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_button"
