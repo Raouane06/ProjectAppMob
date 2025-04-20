@@ -5,15 +5,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private EditText editUsername, editEmail, editRole;
+    private EditText editUsername, editEmail;
     private String currentUsername;
+    private database dbHelper;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -21,43 +22,59 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
 
+        // Initialize database helper
+        dbHelper = new database(this);
+
+        // Initialize views
         editUsername = findViewById(R.id.edit_username);
         editEmail = findViewById(R.id.edit_email);
-        editRole = findViewById(R.id.edit_role);
+        Button saveButton = findViewById(R.id.save_profile_button);
+        Button cancelButton = findViewById(R.id.cancel_button);
 
         // Get current user data from intent
         Intent intent = getIntent();
         if (intent != null) {
             currentUsername = intent.getStringExtra("username");
-            editUsername.setText(currentUsername);
-            editEmail.setText(intent.getStringExtra("email"));
-            editRole.setText(intent.getStringExtra("role"));
+            loadUserData(currentUsername);
         }
 
-        // Save button
-        findViewById(R.id.save_profile_button).setOnClickListener(v -> saveProfileChanges());
+        // Set up listeners
+        saveButton.setOnClickListener(v -> saveProfileChanges());
+        cancelButton.setOnClickListener(v -> finish());
+    }
 
-        // Cancel button
-        findViewById(R.id.cancel_button).setOnClickListener(v -> finish());
+    @SuppressLint("Range")
+    private void loadUserData(String username) {
+        Cursor cursor = dbHelper.getUserData(username);
+        if (cursor != null && cursor.moveToFirst()) {
+            editUsername.setText(cursor.getString(cursor.getColumnIndex(database.USERNAME)));
+            editEmail.setText(cursor.getString(cursor.getColumnIndex(database.EMAIL)));
+            cursor.close();
+        }
     }
 
     @SuppressLint("Range")
     private void saveProfileChanges() {
         String newUsername = editUsername.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
-        String role = editRole.getText().toString().trim();
 
-        if (newUsername.isEmpty() || email.isEmpty() || role.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        // Validate inputs
+        if (newUsername.isEmpty()) {
+            editUsername.setError("Username cannot be empty");
             return;
         }
 
-        database dbHelper = new database(this);
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editEmail.setError("Enter a valid email");
+            return;
+        }
 
         // Check if username is changed and already exists
-        if (!newUsername.equals(currentUsername) && dbHelper.usernameExists(newUsername)) {
-            editUsername.setError("Username already taken");
-            return;
+        if (!newUsername.equals(currentUsername)) {
+            if (dbHelper.usernameExists(newUsername)) {
+                editUsername.setError("Username already taken");
+                return;
+            }
         }
 
         // Check if email is changed and already exists
@@ -74,15 +91,24 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         // Update profile
-        boolean updated = dbHelper.updateUserProfile(currentUsername, newUsername, email, role);
+        boolean updated = dbHelper.updateUserProfile(currentUsername, newUsername, email);
         if (updated) {
+            // Return updated data to calling activity
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("newUsername", newUsername);
+            resultIntent.putExtra("username", newUsername);
+            resultIntent.putExtra("email", email);
             setResult(Activity.RESULT_OK, resultIntent);
+
             Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
     }
 }
