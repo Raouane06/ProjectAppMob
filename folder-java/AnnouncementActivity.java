@@ -1,22 +1,22 @@
-package com.example.myapplication;
+package com.example.labb1;
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class AnnouncementActivity extends AppCompatActivity {
-
     private AnnouncementDBHelper dbHelper;
-    private AnnouncementAdapter adapter;
-    private ArrayList<String> announcements;
-    private EditText etAnnouncement;
+    private AnnouncementAdapterTeach adapter;
+    private ArrayList<Announcement> announcements;
+    private EditText etTitle, etContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,27 +24,35 @@ public class AnnouncementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_announcement);
 
         dbHelper = new AnnouncementDBHelper(this);
-
-        etAnnouncement = findViewById(R.id.etAnnouncement);
+        etTitle = findViewById(R.id.etAnnouncement);
+        etContent = findViewById(R.id.etAnnouncementContent);
         Button btnPost = findViewById(R.id.btnPostAnnouncement);
         RecyclerView recyclerView = findViewById(R.id.recyclerAnnouncements);
 
         announcements = dbHelper.getAllAnnouncements();
-        adapter = new AnnouncementAdapter(announcements);
+        adapter = new AnnouncementAdapterTeach(announcements);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         btnPost.setOnClickListener(v -> {
-            String message = etAnnouncement.getText().toString().trim();
-            if (!message.isEmpty()) {
-                dbHelper.addAnnouncement(message);
-                announcements.add(0, message); // Add to top
+            String title = etTitle.getText().toString().trim();
+            String content = etContent.getText().toString().trim();
+
+            if (!title.isEmpty() && !content.isEmpty()) {
+                String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                String author = "Prof. Smith"; // Replace with actual author name
+
+                Announcement newAnnouncement = new Announcement(title, content, currentDate, author);
+                dbHelper.addAnnouncement(newAnnouncement);
+
+                announcements.add(0, newAnnouncement);
                 adapter.notifyItemInserted(0);
-                etAnnouncement.setText("");
+                etTitle.setText("");
+                etContent.setText("");
                 recyclerView.scrollToPosition(0);
             } else {
-                Toast.makeText(this, "Please type an announcement.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please fill both title and content", Toast.LENGTH_SHORT).show();
             }
         });
     }
