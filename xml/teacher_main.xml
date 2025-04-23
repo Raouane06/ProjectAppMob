@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_back"
-    tools:context=".TeacherProfileActivity">
+    android:background="@drawable/login_back">
 
-    <!-- Scrollable Profile Content -->
+    <!-- Main content container -->
     <ScrollView
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation"
@@ -18,175 +17,240 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="center"
+            android:padding="20dp">
 
-            <!-- Profile Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- App Icon -->
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/teacher"
+                android:contentDescription="App Logo"
+                android:layout_marginBottom="12dp"
+                android:scaleType="fitCenter"/>
+
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginBottom="16dp">
+                android:text="Welcome, Professor!"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/teacher"
-                    android:contentDescription="Profile Image"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"
-                    android:scaleType="centerCrop"/>
-
-                <TextView
-                    android:id="@+id/profile_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-
-            <!-- Professional Information Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Professional Information"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:layout_marginBottom="8dp"/>
-
-                    <!-- Updated Email Section -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Email:"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:layout_marginEnd="4dp"/>
-
-                        <TextView
-                            android:id="@+id/Email"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:inputType="textEmailAddress"
-                            tools:text=" professor.email@university.edu"/>
-                    </LinearLayout>
-
-                    <!-- Department -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Department: "
-                            android:textSize="14sp"
-                            android:textColor="@color/black"/>
-
-                        <TextView
-                            android:id="@+id/profile_department"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Computer Science"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
-                            android:background="@drawable/rounded_corner"
-                            android:padding="8dp"
-                            android:layout_marginStart="8dp"/>
-                    </LinearLayout>
-
-                    <!-- Faculty ID -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Faculty ID: "
-                            android:textSize="14sp"
-                            android:textColor="@color/black"/>
-
-                        <TextView
-                            android:id="@+id/profile_faculty_id"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CS-2025-001"
-                            android:textSize="16sp"
-                            android:textColor="@color/black"
-                            android:background="@drawable/rounded_corner"
-                            android:padding="8dp"
-                            android:layout_marginStart="8dp"/>
-                    </LinearLayout>
-
-                    <!-- Courses Taught -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Account Actions -->
+            <!-- Dashboard Buttons Grid -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_profile_button"
+                <!-- First Row -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Edit Profile"
-                    android:layout_marginBottom="8dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:textColor="@color/black"
-                    app:strokeColor="@color/black"/>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/logout_button"
+                    <!-- Grade Management -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnGradeManagement"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/marking"
+                            android:contentDescription="Grade Management"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Grade Students"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Attendance -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnAttendance"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/attendance"
+                            android:contentDescription="Attendance"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Take Attendance"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Second Row -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
-                    style="@style/Widget.MaterialComponents.Button"
-                    android:backgroundTint="@color/red"/>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Class Schedule -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnSchedule"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/calendar"
+                            android:contentDescription="Schedule"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Class Schedule"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Announcements -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnAnnouncements"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/announcement"
+                            android:contentDescription="Announcements"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Post Announcements"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Third Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <!-- Student List -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnStudentList"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/groups"
+                            android:contentDescription="Student List"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Student List"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Teaching Materials -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnMaterials"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/materials"
+                            android:contentDescription="Teaching Materials"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Teaching Materials"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <!-- Fragment container (hidden by default) -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:visibility="gone"/>
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -198,5 +262,6 @@
         app:menu="@menu/main_bottom_nav_menu"
         app:itemIconTint="@drawable/bottom_nav_colors"
         app:itemTextColor="@drawable/bottom_nav_colors"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled"
+        app:elevation="8dp"/>
 </RelativeLayout>
