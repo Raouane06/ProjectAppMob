@@ -7,36 +7,54 @@
     android:background="@drawable/login_back"
     tools:context=".MainActivity">
 
-    <!-- FrameLayout for hosting fragments -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"/>
-
-    <!-- Calculator Fragment (default visible) -->
+    <!-- Calculator Content -->
     <LinearLayout
-        android:id="@+id/calculator_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="visible">
+        android:padding="16dp">
+
+        <!-- Header with Back Button and Title -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:padding="16dp">
+
+            <ImageButton
+                android:id="@+id/btnBackToMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back to Main"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calculate"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewModules"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_module"/>
+            tools:listitem="@layout/item_module"
+            android:layout_marginTop="16dp"/>
 
         <Button
             android:id="@+id/btnCalculate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calculate Average"
+            android:text="Calculate"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/gray"/>
 
@@ -51,17 +69,4 @@
             android:layout_marginTop="8dp"
             android:textColor="@color/white"/>
     </LinearLayout>
-
-    <!-- Bottom Navigation Bar -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@drawable/bottom_nav_colors"
-        app:itemTextColor="@drawable/bottom_nav_colors"
-        app:labelVisibilityMode="labeled"/>
-
 </RelativeLayout>
