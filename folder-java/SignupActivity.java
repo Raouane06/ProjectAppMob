@@ -1,11 +1,13 @@
-package com.example.merry22;
+package com.example.labb1;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.merry22.databinding.SignupBinding;
+
+import com.example.labb1.LoginActivity;
+import com.example.labb1.databinding.SignupBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
