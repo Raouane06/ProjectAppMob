@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Calc</string>
+    <string name="account_icon">User account icon</string>
+    <string name="stitle">Student Exam Average Calculator</string>
+    <string name="home_title">Dashboard</string>
+    <string name="profile_title">Profile</string>
+</resources>
