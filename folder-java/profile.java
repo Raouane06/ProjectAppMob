@@ -49,7 +49,7 @@ public class profile extends Fragment {
 
             loadProfileData(view);
             setupButtons(view);
-            setupBottomNavigation(view);
+            //setupBottomNavigation(view);
 
         } catch (Exception e) {
             Log.e("Profile", "Error in onCreateView", e);
@@ -60,33 +60,25 @@ public class profile extends Fragment {
         return view;
     }
 
-    private void setupBottomNavigation(View view) {
+    /*private void setupBottomNavigation(View view) {
         BottomNavigationView bottomNav = view.findViewById(R.id.bottom_navigation);
         bottomNav.setSelectedItemId(R.id.nav_profile);
         bottomNav.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            if (itemId == R.id.nav_profile) {
+            if (itemId == R.id.nav_home) {
+                // Navigate back to home
+                if (getActivity() != null) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                // Already on profile
                 return true;
             }
-            else if (itemId == R.id.nav_grades) {//switch to grads page
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new grades())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-            else if (itemId == R.id.nav_calculator) {//switch to calculate page
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new calculate())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-
             return false;
         });
-    }
+    }*/
 
     private void showLoginPrompt() {
         Toast.makeText(getActivity(), "Please login first", Toast.LENGTH_SHORT).show();
@@ -217,6 +209,13 @@ public class profile extends Fragment {
             dbHelper.close();
         }
         super.onDestroyView();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setBottomNavVisibility(true);
+        }
     }
 
     @Override
