@@ -4,4 +4,5 @@
     <string name="stitle">Student Exam Average Calculator</string>
     <string name="home_title">Dashboard</string>
     <string name="profile_title">Profile</string>
+    <string name="back_button_desc">Back</string>
 </resources>
