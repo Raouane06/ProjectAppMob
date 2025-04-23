@@ -1,246 +1,267 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back">
 
-    <!-- Main content with buttons -->
-    <LinearLayout
+    <!-- Main content container -->
+    <ScrollView
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_above="@+id/bottom_navigation"
+        android:fillViewport="true">
 
-        <!-- App Icon -->
-        <ImageView
-            android:id="@+id/app_icon"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/icon1"
-            android:contentDescription="App Logo"
-            android:layout_marginBottom="12dp"
-            android:scaleType="fitCenter"/>
-
-        <!-- Welcome Message -->
-        <TextView
-            android:id="@+id/welcome_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome, Professor!"
-            android:textSize="22sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Options Title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Teacher Dashboard"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- First Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginBottom="8dp">
+            android:padding="20dp">
 
-            <!-- Grade Management -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <!-- App Icon -->
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/teacher"
+                android:contentDescription="App Logo"
+                android:layout_marginBottom="12dp"
+                android:scaleType="fitCenter"/>
+
+            <!-- Welcome Message -->
+            <TextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:text="Welcome, Professor!"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
 
-                <ImageButton
-                    android:id="@+id/btnGradeManagement"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/marking"
-                    android:contentDescription="Grade Management"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Grade Students"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-
-            <!-- Attendance -->
+            <!-- Dashboard Buttons Grid -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/btnAttendance"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/attendance"
-                    android:contentDescription="Attendance"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- First Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Take Attendance"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Grade Management -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnGradeManagement"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/marking"
+                            android:contentDescription="Grade Management"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Grade Students"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Attendance -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnAttendance"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/attendance"
+                            android:contentDescription="Attendance"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Take Attendance"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Second Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Class Schedule -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnSchedule"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/calendar"
+                            android:contentDescription="Schedule"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Class Schedule"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Announcements -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnAnnouncements"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/announcement"
+                            android:contentDescription="Announcements"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Post Announcements"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Third Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <!-- Student List -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnStudentList"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/groups"
+                            android:contentDescription="Student List"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Student List"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Teaching Materials -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <ImageButton
+                            android:id="@+id/btnMaterials"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/materials"
+                            android:contentDescription="Teaching Materials"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:scaleType="centerInside"
+                            android:padding="4dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Teaching Materials"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Second Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="8dp">
-
-            <!-- Class Schedule -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageButton
-                    android:id="@+id/btnSchedule"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/calendar"
-                    android:contentDescription="Schedule"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Class Schedule"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-
-            <!-- Announcements -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageButton
-                    android:id="@+id/btnAnnouncements"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/announcement"
-                    android:contentDescription="Announcements"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Post Announcements"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Third Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <!-- Student Progress -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageButton
-                    android:id="@+id/btnStudentProgress"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/groups"
-                    android:contentDescription="Student Progress"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Student List"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-
-            <!-- Materials -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <ImageButton
-                    android:id="@+id/btnMaterials"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/materials"
-                    android:contentDescription="Teaching Materials"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerInside"
-                    android:padding="4dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Teaching Materials"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Fragment container -->
+    <!-- Fragment container (hidden by default) -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:visibility="gone"/>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/nav_background"
+        app:menu="@menu/main_bottom_nav_menu"
+        app:itemIconTint="@drawable/bottom_nav_colors"
+        app:itemTextColor="@drawable/bottom_nav_colors"
+        app:labelVisibilityMode="labeled"
+        app:elevation="8dp"/>
+</RelativeLayout>
