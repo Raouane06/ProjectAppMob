@@ -30,15 +30,6 @@
                 android:layout_marginBottom="16dp"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Circle"/>
-
-            <Button
-                android:id="@+id/change_image_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Change Photo"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="@color/white"
-                app:strokeColor="@color/white"/>
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -63,27 +54,6 @@
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:layout_marginBottom="16dp"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    app:hintTextColor="@color/white"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidth="1dp"
-                    app:boxBackgroundMode="outline"
-                    app:boxBackgroundColor="@android:color/transparent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Full Name"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:inputType="textPersonName"
-                        android:enabled="false"/>
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -124,28 +94,6 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    app:hintTextColor="@color/white"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidth="1dp"
-                    app:boxBackgroundMode="outline"
-                    app:boxBackgroundColor="@android:color/transparent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_bio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Bio"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:inputType="textMultiLine"
-                        android:minLines="3"
-                        android:enabled="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
