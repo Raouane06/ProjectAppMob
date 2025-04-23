@@ -22,7 +22,8 @@
     "active": "0",
     "filiere": "12",
     "Coefficient": "3",
-    "Credit": "5"
+    "Credit": "5",
+    "teacherId": "48"
   },
   {
     "id_module": "2140",
@@ -47,7 +48,8 @@
     "active": "0",
     "filiere": "12",
     "Coefficient": "3",
-    "Credit": "5"
+    "Credit": "5",
+    "teacherId": "141"
   },
   {
     "id_module": "2143",
@@ -72,7 +74,8 @@
     "active": "0",
     "filiere": "12",
     "Coefficient": "3",
-    "Credit": "5"
+    "Credit": "5",
+    "teacherId": "12"
   },
   {
     "id_module": "2146",
@@ -97,7 +100,8 @@
     "active": "0",
     "filiere": "12",
     "Coefficient": "3",
-    "Credit": "5"
+    "Credit": "5",
+    "teacherId": "7"
   },
   {
     "id_module": "2135",
@@ -122,7 +126,8 @@
     "active": "0",
     "filiere": "14",
     "Coefficient": "2",
-    "Credit": "4"
+    "Credit": "4",
+    "teacherId": "216"
   },
   {
     "id_module": "2137",
@@ -147,7 +152,8 @@
     "active": "0",
     "filiere": "13",
     "Coefficient": "2",
-    "Credit": "4"
+    "Credit": "4",
+    "teacherId": "95"
   },
   {
     "id_module": "2141",
@@ -172,6 +178,7 @@
     "active": "0",
     "filiere": "27",
     "Coefficient": "1",
-    "Credit": "2"
+    "Credit": "2",
+    "teacherId": "31"
   }
 ]
