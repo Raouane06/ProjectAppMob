@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (checkCredentials) {
                         SharedPreferences.Editor editor = getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit();
                         editor.putString(USERNAME_KEY, username);
-                        editor.apply(); 
+                        editor.apply();
 
                         Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
