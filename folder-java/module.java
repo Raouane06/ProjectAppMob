@@ -1,10 +1,12 @@
-package com.example.merry22;
+package com.example.labb1;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -74,7 +76,6 @@ public class Module {
             return "";
         }
     }
-
     // Setters
     public void setName(String name) { this.name = name; }
     public void setCoefficient(int coefficient) { this.coefficient = coefficient; }
