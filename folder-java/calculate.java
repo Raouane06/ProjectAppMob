@@ -25,49 +25,25 @@ public class calculate extends Fragment {
         Button btnCalculate = view.findViewById(R.id.btnCalculate);
         TextView tvResult = view.findViewById(R.id.tvResult);
 
-        // Load modules from JSON
+        // Load modules
         Module moduleLoader = new Module();
         modules = moduleLoader.loadModules(requireContext());
 
-        // Setup RecyclerView with your existing ModuleAdapter
         moduleAdapter = new ModuleAdapter(modules);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(moduleAdapter);
+
+        view.findViewById(R.id.btnBackToMain).setOnClickListener(v -> {
+            if (getActivity() != null) {
+                // This ensures proper bottom nav visibility restoration
+                getActivity().onBackPressed();
+            }
+        });
 
         btnCalculate.setOnClickListener(v -> {
             double average = calculateWeightedAverage();
             int totalCredits = calculateTotalCredits();
             tvResult.setText(String.format("Average: %.2f\nCredits: %d", average, totalCredits));
-        });
-
-        // Bottom Navigation Setup
-        BottomNavigationView bottomNav = view.findViewById(R.id.bottom_navigation);
-        bottomNav.setSelectedItemId(R.id.nav_calculator); // Highlight calculator tab
-        bottomNav.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-
-            if (itemId == R.id.nav_calculator) {
-                // Already on calculator fragment
-                return true;
-            }
-            else if (itemId == R.id.nav_grades) {
-                // Switch to grades fragment
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new grades())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-            else if (itemId == R.id.nav_profile) {
-                // Switch to profile fragment
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new profile())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-
-            return false;
         });
 
         return view;
@@ -122,5 +98,20 @@ public class calculate extends Fragment {
             }
         }
         return totalCredits;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setBottomNavVisibility(false);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).setBottomNavVisibility(true);
+        }
     }
 }
