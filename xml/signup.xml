@@ -86,6 +86,23 @@
                 android:text="Teacher"/>
         </RadioGroup>
 
+        <EditText
+            android:id="@+id/teacherIdInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Teacher ID"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:background="@drawable/rounded_corner"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            android:inputType="text" />
+
+
         <Button
             android:id="@+id/signup_btn"
             android:layout_width="match_parent"
