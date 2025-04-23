@@ -106,6 +106,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onDestroy() {
         dbHelper.close();
