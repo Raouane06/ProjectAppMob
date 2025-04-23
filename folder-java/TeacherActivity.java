@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.labb1;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -38,7 +38,7 @@ public class TeacherActivity extends AppCompatActivity {
         btnAttendance = findViewById(R.id.btnAttendance);
         btnSchedule = findViewById(R.id.btnSchedule);
         btnAnnouncements = findViewById(R.id.btnAnnouncements);
-        btnStudentProgress = findViewById(R.id.btnStudentProgress);
+        //btnStudentProgress = findViewById(R.id.btnStudentProgress);
         btnMaterials = findViewById(R.id.btnMaterials);
 
         // 2) Get the incoming teacherId
