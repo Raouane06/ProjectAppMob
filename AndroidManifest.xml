@@ -43,6 +43,11 @@
             android:exported="true"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".TeacherActivity"
+            android:exported="true"
+            android:label="Teacher Dashboard" />
+
         <!-- Calculate -->
         <activity
             android:name=".calculate"
@@ -70,6 +75,17 @@
             android:exported="false"
             android:label="Edit Profile"
             android:windowSoftInputMode="adjustPan" />
+
+        <!-- Add this with your other activity declarations -->
+        <activity
+            android:name=".AnnouncementActivity"
+            android:exported="true"
+            android:label="Announcements" />
+
+        <activity
+            android:name=".TeacherProfileActivity"
+            android:exported="false"
+            android:label="Teacher Profile" />
 
     </application>
 
