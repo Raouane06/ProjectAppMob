@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class AnnouncementDBHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "User.db";
-    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "Announcements.db";
+    private static final int DB_VERSION = 2;
     private static final String TABLE_NAME = "announcements";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_TITLE = "title";
@@ -25,13 +27,18 @@ public class AnnouncementDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUMN_TITLE + " TEXT NOT NULL, "
-                + COLUMN_CONTENT + " TEXT NOT NULL, "
-                + COLUMN_DATE + " TEXT NOT NULL, "
-                + COLUMN_AUTHOR + " TEXT NOT NULL)");
+        try {
+            db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_TITLE + " TEXT NOT NULL, " +
+                    COLUMN_CONTENT + " TEXT NOT NULL, " +
+                    COLUMN_DATE + " TEXT NOT NULL, " +
+                    COLUMN_AUTHOR + " TEXT NOT NULL)");
+        } catch (Exception e) {
+            Log.e("DBHelper", "Table creation failed", e);
+        }
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -52,19 +59,28 @@ public class AnnouncementDBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Announcement> getAllAnnouncements() {
         ArrayList<Announcement> announcements = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY id DESC", null);
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
 
-        if (cursor.moveToFirst()) {
-            do {
-                announcements.add(new Announcement(
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR))));
-            } while (cursor.moveToNext());
+        try {
+            db = this.getReadableDatabase();
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY id DESC", null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    announcements.add(new Announcement(
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR))));
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.e("DBHelper", "Query failed", e);
+        } finally {
+            if (cursor != null) cursor.close();
+            if (db != null) db.close();
         }
-        cursor.close();
         return announcements;
     }
 }
