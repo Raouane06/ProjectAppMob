@@ -32,6 +32,13 @@ public class AnnouncementAdapterTeach extends RecyclerView.Adapter<AnnouncementA
         holder.tvAuthor.setText(announcement.getAuthor());
     }
 
+    // Add this method to your adapter
+    public void updateData(ArrayList<Announcement> newData) {
+        this.announcements.clear();
+        this.announcements.addAll(newData);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return announcements.size();
