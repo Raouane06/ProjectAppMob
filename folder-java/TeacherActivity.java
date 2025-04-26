@@ -1,14 +1,20 @@
 package com.example.labb1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,13 +24,11 @@ import java.io.InputStream;
 public class TeacherActivity extends AppCompatActivity {
 
     private static final String TAG = "TeacherActivity";
+    private static final String USER_PREFS = "user_prefs";
+    private static final String USERNAME_KEY = "username";
 
-    private ImageButton btnGradeManagement,
-            btnAttendance,
-            btnSchedule,
-            btnAnnouncements,
-            btnStudentProgress,
-            btnMaterials;
+    private BottomNavigationView bottomNav;
+    private Fragment currentFragment;
     private TextView welcomeText;
 
     @Override
@@ -32,70 +36,144 @@ public class TeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_main);
 
-        // 1) Reference your views
+        // Initialize views
         welcomeText = findViewById(R.id.welcome_text);
-        btnGradeManagement = findViewById(R.id.btnGradeManagement);
-        btnAttendance = findViewById(R.id.btnAttendance);
-        btnSchedule = findViewById(R.id.btnSchedule);
-        btnAnnouncements = findViewById(R.id.btnAnnouncements);
-        //btnStudentProgress = findViewById(R.id.btnStudentProgress);
-        btnMaterials = findViewById(R.id.btnMaterials);
 
-        // 2) Get the incoming teacherId
+        // Get teacher identification
+        SharedPreferences prefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+        String username = prefs.getString(USERNAME_KEY, "");
         String teacherId = getIntent().getStringExtra("teacherId");
-        Log.d(TAG, "Received teacherId: " + teacherId);
-        Toast.makeText(this, "Teacher ID: " + teacherId, Toast.LENGTH_SHORT).show();
+        String identifier = !username.isEmpty() ? username : teacherId;
 
-        if (teacherId != null && !teacherId.isEmpty()) {
-            loadModuleForTeacher(teacherId);
+        if (identifier != null && !identifier.isEmpty()) {
+            welcomeText.setText("Welcome, Professor " + identifier + "!");
+            loadModuleForTeacher(identifier);
         } else {
-            Toast.makeText(this, "No teacher ID provided", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Teacher identification failed", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
-        // 3) Wire up your buttons
-        btnGradeManagement.setOnClickListener(v ->
-                Toast.makeText(this, "Grade Management feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
+        // Set up bottom navigation
+        bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
-        btnAttendance.setOnClickListener(v ->
-                Toast.makeText(this, "Attendance feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
-
-        btnSchedule.setOnClickListener(v ->
-                Toast.makeText(this, "Schedule feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
-
-        btnAnnouncements.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AnnouncementActivity.class);
-            startActivity(intent);
+            if (itemId == R.id.nav_home) {
+                loadHomeFragment();
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                // Launch TeacherProfileActivity instead of loading profile fragment
+                startActivity(new Intent(this, TeacherProfileActivity.class));
+                return true;
+            }
+            return false;
         });
 
+        // Set up button listeners
+        findViewById(R.id.btnAnnouncements).setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(this, AnnouncementActivity.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Error opening announcements", Toast.LENGTH_SHORT).show();
+                Log.e("TeacherActivity", "Activity error", e);
+            }
+        });
 
-        btnStudentProgress.setOnClickListener(v ->
-                Toast.makeText(this, "Student Progress feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
+        findViewById(R.id.btnGradeManagement).setOnClickListener(v -> {
+            Toast.makeText(this, "Grade Management feature coming soon!", Toast.LENGTH_SHORT).show();
+        });
 
-        btnMaterials.setOnClickListener(v ->
-                Toast.makeText(this, "Teaching Materials feature coming soon!", Toast.LENGTH_SHORT).show()
-        );
+        findViewById(R.id.btnAttendance).setOnClickListener(v -> {
+            Toast.makeText(this, "Attendance feature coming soon!", Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.btnSchedule).setOnClickListener(v -> {
+            Toast.makeText(this, "Schedule feature coming soon!", Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.btnMaterials).setOnClickListener(v -> {
+            Toast.makeText(this, "Teaching Materials feature coming soon!", Toast.LENGTH_SHORT).show();
+        });
+
+        // Load the home fragment initially
+        loadHomeFragment();
+    }
+
+    private void loadHomeFragment() {
+        // Show main content and hide fragment container
+        findViewById(R.id.main_content).setVisibility(View.VISIBLE);
+        findViewById(R.id.fragment_container).setVisibility(View.GONE);
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        setBottomNavVisibility(true);
+    }
+
+    public void setBottomNavVisibility(boolean visible) {
+        if (bottomNav != null) {
+            bottomNav.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void loadFragment(Fragment fragment, boolean addToBackStack) {
+        if (isFinishing() || isDestroyed()) return;
+
+        // Hide main content and show fragment container
+        findViewById(R.id.main_content).setVisibility(View.GONE);
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        // Check if the fragment is already added
+        Fragment existingFragment = fm.findFragmentByTag(fragment.getClass().getSimpleName());
+        if (existingFragment != null && existingFragment.isVisible()) {
+            return;
+        }
+
+        // Set bottom nav visibility based on fragment type
+        boolean showBottomNav = !(fragment instanceof Announcements) &&
+                !(fragment instanceof calculate) &&
+                !(fragment instanceof grades);
+        setBottomNavVisibility(showBottomNav);
+
+        transaction.replace(R.id.fragment_container, fragment, fragment.getClass().getSimpleName());
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getSimpleName());
+        }
+
+        transaction.commitAllowingStateLoss();
+        fm.executePendingTransactions();
+
+        currentFragment = fragment;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+            // Check if we're returning to home
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                loadHomeFragment();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void loadModuleForTeacher(String teacherId) {
         String moduleName = getModuleNameForTeacher(teacherId);
-
         if (moduleName != null) {
-            // Update UI with module name
-            welcomeText.setText("Welcome, Professor!\nModule: " + moduleName);
-            Toast.makeText(this, "Module: " + moduleName, Toast.LENGTH_SHORT).show();
-        } else {
-            // If no module found
-            Toast.makeText(this, "No module found for teacher ID: " + teacherId, Toast.LENGTH_LONG).show();
+            TextView moduleText = findViewById(R.id.welcome_text);
+            moduleText.setText("Welcome, Professor!\nModule: " + moduleName);
         }
     }
 
     private String getModuleNameForTeacher(String teacherId) {
         try {
-            // Load JSON array from assets
             AssetManager am = getAssets();
             InputStream is = am.open("module.json");
             byte[] buffer = new byte[is.available()];
@@ -105,7 +183,6 @@ public class TeacherActivity extends AppCompatActivity {
             String jsonString = new String(buffer, "UTF-8");
             JSONArray arr = new JSONArray(jsonString);
 
-            // Loop through the modules and find the one matching the teacher's ID
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 if (obj.getString("teacherId").equals(teacherId)) {
@@ -115,6 +192,16 @@ public class TeacherActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(TAG, "Error reading module.json", e);
         }
-        return null; // Return null if no module found
+        return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE);
+        String username = prefs.getString(USERNAME_KEY, null);
+        if (username != null) {
+            welcomeText.setText("Welcome, Professor " + username + "!");
+        }
     }
 }
