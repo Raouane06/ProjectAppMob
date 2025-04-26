@@ -43,33 +43,40 @@ public class SignupActivity extends AppCompatActivity {
             String email = binding.emailInput.getText().toString().trim();
             String username = binding.usernameInput.getText().toString().trim();
             String password = binding.passwordInput.getText().toString().trim();
+            String role = "student"; // Default role
 
-            if (validateInputs(email, username, password)) {
-                int selectedId = binding.roleRadioGroup.getCheckedRadioButtonId();
-                String role = "student";
-
-                if (selectedId == binding.teacherRadio.getId()) {
-                    String teacherId = binding.teacherIdInput.getText().toString().trim();
-                    if (isTeacherIdValid(teacherId)) {
-                        role = "teacher";
-                    } else {
-                        Toast.makeText(this, "Invalid Teacher ID", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-
-                // Check uniqueness before inserting
-                if (db.usernameExists(username)) {
-                    Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (db.emailExists(email)) {
-                    Toast.makeText(this, "Email already exists", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                performSignup(email, username, password, role);
+            // Validate inputs first
+            if (!validateInputs(email, username, password)) {
+                return;
             }
+
+            // Handle teacher registration
+            if (binding.roleRadioGroup.getCheckedRadioButtonId() == binding.teacherRadio.getId()) {
+                String teacherId = binding.teacherIdInput.getText().toString().trim();
+                if (teacherId.isEmpty()) {
+                    Toast.makeText(this, "Teacher ID required", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isTeacherIdValid(teacherId)) {
+                    Toast.makeText(this, "Invalid Teacher ID", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                role = "teacher";
+            }
+
+            // Check for existing user
+            if (db.usernameExists(username)) {
+                Toast.makeText(this, "Username exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (db.emailExists(email)) {
+                Toast.makeText(this, "Email exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Proceed with registration
+            performSignup(email, username, password, role);
         });
 
         binding.loginLink.setOnClickListener(view -> {
