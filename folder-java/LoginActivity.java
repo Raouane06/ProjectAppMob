@@ -1,7 +1,9 @@
 package com.example.labb1;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -35,17 +37,34 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Boolean checkCredentials = db.checkUserCredentials(username, password);
 
+                    // In the onClick listener of binding.loginBtn:
                     if (checkCredentials) {
-                        SharedPreferences.Editor editor = getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit();
-                        editor.putString(USERNAME_KEY, username);
-                        editor.apply();
+                        // Get user role from database
+                        Cursor cursor = db.getUserData(username);
+                        if (cursor != null && cursor.moveToFirst()) {
+                            @SuppressLint("Range") String role = cursor.getString(cursor.getColumnIndex(database.ROLE));
+                            cursor.close();
 
-                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit();
+                            editor.putString(USERNAME_KEY, username);
+                            editor.apply();
+
+                            Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+
+                            // Redirect based on role
+                            Intent intent;
+                            if (role.equals("teacher")) {
+                                // For teachers, go to TeacherActivity
+                                intent = new Intent(LoginActivity.this, TeacherActivity.class);
+                                // If you need to pass teacher ID (from username or other field)
+                                intent.putExtra("teacherId", username); // or get from database
+                            } else {
+                                // For students, go to MainActivity as before
+                                intent = new Intent(LoginActivity.this, MainActivity.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 }
             }
