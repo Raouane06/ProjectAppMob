@@ -3,8 +3,11 @@ package com.example.labb1;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -48,9 +51,18 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-        // Add this to your onCreate() method
+
         findViewById(R.id.btnAnnouncements).setOnClickListener(v -> {
-            loadFragment(new Announcements(), true);
+            try {
+                Announcements fragment = new Announcements();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            } catch (Exception e) {
+                Toast.makeText(this, "Error loading announcements", Toast.LENGTH_SHORT).show();
+                Log.e("MainActivity", "Fragment error", e);
+            }
         });
 
         findViewById(R.id.btnCalculate).setOnClickListener(v -> loadFragment(new calculate(), true));
