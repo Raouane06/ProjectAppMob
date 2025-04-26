@@ -58,7 +58,7 @@ public class database extends SQLiteOpenHelper {
     public Cursor getUserData(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_NAME,
-                new String[]{ID, EMAIL, USERNAME, PASSWORD, ROLE},
+                new String[]{ID, EMAIL, USERNAME, PASSWORD, ROLE}, // Include ROLE
                 USERNAME + "=?",
                 new String[]{username},
                 null, null, null);
