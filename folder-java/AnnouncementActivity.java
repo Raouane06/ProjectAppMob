@@ -1,8 +1,11 @@
 package com.example.labb1;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,43 +20,92 @@ public class AnnouncementActivity extends AppCompatActivity {
     private AnnouncementAdapterTeach adapter;
     private ArrayList<Announcement> announcements;
     private EditText etTitle, etContent;
+    private SharedPreferences prefs;
+    private String teacherName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_announcement);
 
-        dbHelper = new AnnouncementDBHelper(this);
-        etTitle = findViewById(R.id.etAnnouncement);
-        etContent = findViewById(R.id.etAnnouncementContent);
-        Button btnPost = findViewById(R.id.btnPostAnnouncement);
-        RecyclerView recyclerView = findViewById(R.id.recyclerAnnouncements);
+        try {
+            setContentView(R.layout.activity_announcement);
 
-        announcements = dbHelper.getAllAnnouncements();
-        adapter = new AnnouncementAdapterTeach(announcements);
+            // Initialize SharedPreferences
+            prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            teacherName = "Prof. " + prefs.getString("username", "Teacher");
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+            // Initialize views
+            ImageButton btnBack = findViewById(R.id.btnBack);
+            etTitle = findViewById(R.id.etAnnouncement); // Removed local variable declaration
+            etContent = findViewById(R.id.etAnnouncementContent); // Removed local variable
+            Button btnPost = findViewById(R.id.btnPostAnnouncement);
+            RecyclerView recyclerView = findViewById(R.id.recyclerAnnouncements);
 
-        btnPost.setOnClickListener(v -> {
-            String title = etTitle.getText().toString().trim();
-            String content = etContent.getText().toString().trim();
+            btnBack.setOnClickListener(v -> finish());
 
-            if (!title.isEmpty() && !content.isEmpty()) {
-                String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                String author = "Prof. Smith"; // Replace with actual author name
+            // Initialize database helper (assign to class field)
+            dbHelper = new AnnouncementDBHelper(this);
+            announcements = new ArrayList<>();
 
-                Announcement newAnnouncement = new Announcement(title, content, currentDate, author);
-                dbHelper.addAnnouncement(newAnnouncement);
+            // Setup RecyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new AnnouncementAdapterTeach(announcements); // Assign to class field
+            recyclerView.setAdapter(adapter);
 
-                announcements.add(0, newAnnouncement);
-                adapter.notifyItemInserted(0);
-                etTitle.setText("");
-                etContent.setText("");
-                recyclerView.scrollToPosition(0);
-            } else {
-                Toast.makeText(this, "Please fill both title and content", Toast.LENGTH_SHORT).show();
-            }
-        });
+            // Load initial data
+            loadAnnouncements();
+
+            // Setup post button
+            btnPost.setOnClickListener(v -> {
+                String title = etTitle.getText().toString().trim();
+                String content = etContent.getText().toString().trim();
+
+                if (!title.isEmpty() && !content.isEmpty()) {
+                    String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                    Announcement newAnnouncement = new Announcement(title, content, currentDate, teacherName);
+                    postAnnouncement(newAnnouncement);
+                } else {
+                    Toast.makeText(this, "Please fill both fields", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("AnnouncementActivity", "Init error", e);
+            Toast.makeText(this, "Initialization failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    private void loadAnnouncements() {
+        try {
+            announcements.clear();
+            announcements.addAll(dbHelper.getAllAnnouncements());
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            Log.e("AnnouncementActivity", "Load error", e);
+            Toast.makeText(this, "Failed to load announcements", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void postAnnouncement(Announcement announcement) {
+        try {
+            dbHelper.addAnnouncement(announcement);
+            announcements.add(0, announcement);
+            adapter.notifyItemInserted(0);
+            etTitle.setText("");
+            etContent.setText("");
+            Toast.makeText(this, "Announcement posted!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("AnnouncementActivity", "Post error", e);
+            Toast.makeText(this, "Failed to post announcement", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
+        super.onDestroy();
     }
 }
